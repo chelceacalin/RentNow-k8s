@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-end-configmap
+data:
+  baseURL: http://core:8079/core
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: front-end
+          image: calinmarius/front-end:1.1.0
+          ports:
+            - containerPort: 4176
+          envFrom:
+            - configMapRef:
+                name: front-end-configmap
