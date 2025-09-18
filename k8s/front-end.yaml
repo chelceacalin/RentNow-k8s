@@ -3,23 +3,23 @@ kind: ConfigMap
 metadata:
   name: front-end-configmap
 data:
-  baseURL: http://core:8079/core
+  baseURL: http://core:8080/core
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: front-end
   labels:
-    app: app
+    app: front-end
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: front-end
   template:
     metadata:
       labels:
-        app: app
+        app: front-end
     spec:
       containers:
         - name: front-end
@@ -29,3 +29,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: front-end-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-service
+spec:
+  selector:
+    app: front-end
+  ports:
+    - port: 4176
+      targetPort: 4176
+  type: LoadBalancer

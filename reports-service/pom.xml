@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example.RentNow</groupId>
-    <artifactId>reports_service</artifactId>
+    <artifactId>reports-service</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Reports Module</name>

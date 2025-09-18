@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reports-configmap
+data:
+  CUSTOM_CORE_URL: http://core:8080/core
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reports
+  labels:
+    app: reports-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reports-service
+  template:
+    metadata:
+      labels:
+        app: reports-service
+    spec:
+      containers:
+        - name: reports
+          image: calinmarius/reports-service:1.0.0
+          ports:
+            - containerPort: 8092
+          envFrom:
+            - configMapRef:
+                name: reports-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reports-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: reports-service
+  ports:
+    - port: 8092
+      targetPort: 8092
