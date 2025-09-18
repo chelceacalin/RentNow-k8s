@@ -2,14 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.example.RentNow</groupId>
-        <artifactId>RentNow-parent</artifactId>
-        <version>1.0.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.0</version>
     </parent>
 
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example.RentNow</groupId>
     <artifactId>reports_service</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Reports Module</name>
     <description>Module for generating pdfs</description>
@@ -26,14 +28,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>4.1.3</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.17.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,6 +53,7 @@
         <dependency>
             <groupId>com.example.RentNow</groupId>
             <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- Healh and metrics -->
         <dependency>
