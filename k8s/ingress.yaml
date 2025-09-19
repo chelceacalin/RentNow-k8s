@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rentnow-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /core(/|$)(.*)
+            backend:
+              service:
+                name: core-service
+                port:
+                  number: 8080
+          - pathType: ImplementationSpecific
+            path: /reporting(/|$)(.*)
+            backend:
+              service:
+                name: reports-service
+                port:
+                  number: 8092
+          - pathType: ImplementationSpecific
+            path: /notification(/|$)(.*)
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 8091
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: front-end-service
+                port:
+                  number: 4173
