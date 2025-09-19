@@ -25,7 +25,7 @@ spring:
           auth: true
           starttls:
             enable: true
-# Jpa
+  # Jpa
   jpa:
     show-sql: false
     properties:
@@ -53,7 +53,7 @@ custom:
   python-url: ${PYTHON_URL:http://localhost:5000}
   newsletter-secret: ${NEWSLETTER_SECRET:htyxmhnBw46wPMFafDw2FE43ffj9G6sT}
   report-service:
-    app-url: http://localhost:8092/reporting
+    app-url: ${REPORTS_SERVICE_URL:http://localhost:8092/reporting}
 
 # Minio
 minio:
@@ -63,13 +63,11 @@ minio:
   secret:
     key: ${MINIO_SECRET_KEY:password}
 
-
 # Api Documentation
 springdoc:
   api-docs:
     path: /api-docs
     enabled: true
-
 
 # Actuator config
 management:
@@ -103,17 +101,10 @@ management:
     sampling:
       probability: 1
 
-
-
 # Logging
 logging:
   level:
     com:
       example: info
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
 server:
   port: 8080
