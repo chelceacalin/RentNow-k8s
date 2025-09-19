@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: core-configmap
 data:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql-service:5432/technow
   SPRING_DATASOURCE_USERNAME: technow
   SPRING_DATASOURCE_PASSWORD: technow
   MAIL_USERNAME: test
@@ -16,6 +16,7 @@ data:
   MINIO_URL: http://minio-service:9000
   MINIO_ACCESS_KEY: admin
   MINIO_SECRET_KEY: password
+  LOKI_URL: http://loki-service:3100/loki/api/v1/push
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,7 +36,7 @@ spec:
     spec:
       containers:
         - name: core
-          image: calinmarius/core:1.1.0
+          image: calinmarius/core:1.2.0
           ports:
             - containerPort: 8080
           envFrom:

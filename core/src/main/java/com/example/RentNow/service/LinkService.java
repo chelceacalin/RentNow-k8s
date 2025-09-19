@@ -51,7 +51,7 @@ public class LinkService {
                 }
             });
         } catch (Exception e) {
-            log.error("Could not intialize default links {}", e.getMessage());
+            log.error("Could not initialize default links {}", e.getMessage());
         }
     }
 

@@ -55,7 +55,7 @@ custom:
   report-service:
     app-url: ${REPORTS_SERVICE_URL:http://localhost:8092/reporting}
 
-# Minio
+# Minio LinkService initl
 minio:
   url: ${MINIO_URL:http://localhost:9000}
   access:
