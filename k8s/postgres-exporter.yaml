@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgress-exporter-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgress-exporter
+  template:
+    metadata:
+      labels:
+        app: postgress-exporter
+    spec:
+      containers:
+        - name: postgress-exporter
+          image: prometheuscommunity/postgres-exporter
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: DATA_SOURCE_NAME
+              value: postgresql://technow:technow@postgres:5432/technow?sslmode=disable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgress-exporter-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: postgress-exporter
+  ports:
+    - port: 9187
+      targetPort: 9187
