@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: front-end-configmap
 data:
-  VITE_API_URL: /core
+  VITE_API_URL: http://api-gateway:8079/core
 ---
 apiVersion: apps/v1
 kind: Deployment

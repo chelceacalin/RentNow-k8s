@@ -20,28 +20,4 @@ public class ApiGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
-
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:4173","http://front-end-service:4173"));
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		configuration.setAllowedHeaders(List.of("*"));
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-
-	@Component
-	public class CustomCorsFilter implements GatewayFilter {
-		@Override
-		public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-			exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
-			exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-			exchange.getResponse().getHeaders().add("Access-Control-Allow-Headers", "*");
-			exchange.getResponse().getHeaders().add("Access-Control-Allow-Credentials", "true");
-			return chain.filter(exchange);
-		}
-	}
 }

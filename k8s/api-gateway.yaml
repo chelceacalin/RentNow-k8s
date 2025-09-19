@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: core
-          image: calinmarius/api-gateway:1.0.0
+          image: calinmarius/api-gateway:1.3.0
           ports:
             - containerPort: 8079
           envFrom:
@@ -39,7 +39,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-gateway-service
+  name: api-gateway
 spec:
   type: LoadBalancer
   selector:
