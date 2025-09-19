@@ -84,7 +84,7 @@ public class LoggingFilter implements GlobalFilter, Ordered {
 
         filteredHeaders.forEach((key, values) -> {
             if (!values.isEmpty()) {
-                String escapedValue = values.getFirst().replace("'", "'\"'\"'");
+                String escapedValue = values.get(0).replace("'", "'\"'\"'");
                 curlRequest.append(" -H ")
                         .append("'")
                         .append(key)

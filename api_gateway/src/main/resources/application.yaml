@@ -1,12 +1,21 @@
 server:
-  port: 8079
-core-url: http://localhost:8080
-front-end-url: http://localhost:4173
+  port: ${SERVER_PORT:8079}
+
+# Service URLs with environment variables and defaults for local development
+core-url: ${CORE_URL:http://localhost:8080}
+notification-url: ${NOTIFICATION_URL:http://localhost:8091}
+reporting-url: ${REPORTING_URL:http://localhost:8092}
+front-end-url: ${FRONT_END_URL:http://localhost:4173}
 
 spring:
   application:
     name: ApiGateway
   cloud:
+    kubernetes:
+      enabled: true
+      discovery:
+        enabled: true
+        all-namespaces: false
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
@@ -21,26 +30,25 @@ spring:
               - PUT
               - DELETE
               - OPTIONS
-            allowedHeaders:
-              - "*"
+            allowedHeaders: ["*"]
             allowCredentials: true
       routes:
         - id: core
-          uri: ${core-url}/core
+          uri: ${CORE_URL:http://core-service:8080}/core
           predicates:
             - Path=/core/**
           filters:
             - StripPrefix=1
-            - AddRequestHeader=Origin, http://localhost:8079
-            - AddRequestHeader=Referer, http://localhost:8079
+            - AddRequestHeader=Origin, ${SERVER_URL:http://localhost:8079}
+            - AddRequestHeader=Referer, ${SERVER_URL:http://localhost:8079}
         - id: notification-service
-          uri: lb://notification-service
+          uri: ${NOTIFICATION_URL:http://notification-service:8091}/notification
           predicates:
             - Path=/notification/**
           filters:
             - StripPrefix=1
         - id: report-service
-          uri: lb://report-service
+          uri: ${REPORTING_URL:http://reports-service:8092}/reporting
           predicates:
             - Path=/reporting/**
           filters:
@@ -49,7 +57,7 @@ spring:
     virtual:
       enabled: true
 
-  # Swagger Aggregation Configuration
+# Swagger Aggregation Configuration
 springdoc:
   api-docs:
     enabled: true
@@ -57,21 +65,16 @@ springdoc:
   swagger-ui:
     urls:
       - name: Core Service
-        url: http://localhost:8080/api-docs
-      - name: Reporting Service
-        url: http://localhost:8092/reporting/api-docs
+        url: ${CORE_URL:http://localhost:8080}/api-docs
       - name: Notification Service
-        url: http://localhost:8091/notification/api-docs
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+        url: ${NOTIFICATION_URL:http://localhost:8091}/notification/api-docs
+      - name: Reporting Service
+        url: ${REPORTING_URL:http://localhost:8092}/reporting/api-docs
 
 # Actuator config
 management:
   server:
-    port: 8079
+    port: ${MANAGEMENT_PORT:8079}
   endpoints:
     web:
       exposure:
@@ -88,7 +91,7 @@ management:
             requests: 5s
   zipkin:
     tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
   tracing:
     sampling:
       probability: 1
@@ -98,6 +101,7 @@ logging:
     org.springframework.cloud.gateway: INFO
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%8.8t]){magenta} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n"
+
 custom:
   headersToHide: host,content-length,user-agent,postman-token,accept-encoding,cache-control,connection,accept,sec-ch-ua-platform,sec-ch-ua,dnt,sec-fetch-site,sec-fetch-dest,sec-ch-ua-mobile,upgrade-insecure-requests,sec-fetch-user,sec-fetch-mode,cookie,accept-language,origin,referer
   hideDefaultHeaders: true

@@ -16,7 +16,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 public class ApiGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGatewayApplication.class, args);
@@ -25,7 +24,7 @@ public class ApiGatewayApplication {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:4173"));
+		configuration.setAllowedOrigins(List.of("http://localhost:4173","http://front-end-service:4173"));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
