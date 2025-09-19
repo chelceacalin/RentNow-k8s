@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki-deployment
+spec:
+  selector:
+    matchLabels:
+      app: loki
+  template:
+    metadata:
+      name: loki
+      labels:
+        app: loki
+    spec:
+      containers:
+        - name: llokioki
+          image: grafana/loki:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-service
+spec:
+  selector:
+    app: loki
+  type: LoadBalancer
+  ports:
+    - port: 3100
+      protocol: TCP
+      targetPort: 3100
