@@ -23,10 +23,15 @@ spring:
       globalcors:
         cors-configurations:
           "[/**]":
-              allowedOrigins: [ "http://localhost:4173", "http://front-end-service:4173" ]
-              allowedMethods: [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
-              allowedHeaders: [ "*" ]
-              allowCredentials: true
+            allowedOrigins:
+              [
+                "http://localhost:4173",
+                "http://front-end-service:4173",
+                "http://localhost",
+              ]
+            allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+            allowedHeaders: ["*"]
+            allowCredentials: true
       routes:
         - id: core
           uri: ${CORE_URL:http://core-service:8080}/core
@@ -34,8 +39,6 @@ spring:
             - Path=/core/**
           filters:
             - StripPrefix=1
-            - AddRequestHeader=Origin, ${SERVER_URL:http://localhost:8079}
-            - AddRequestHeader=Referer, ${SERVER_URL:http://localhost:8079}
         - id: notification-service
           uri: ${NOTIFICATION_URL:http://notification-service:8091}/notification
           predicates:

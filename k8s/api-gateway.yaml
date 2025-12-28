@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: core
-          image: calinmarius/api-gateway:1.3.0
+          image: calinmarius/api-gateway:1.4.0
           ports:
             - containerPort: 8079
           envFrom:
